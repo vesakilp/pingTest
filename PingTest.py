@@ -1,15 +1,21 @@
-import os
-import time
+import threading, os, time
 hostname = "google.com" #example
-response = os.system("ping -c 1 " + hostname)
 
-#and then check the response...
-ts = str(int(time.time()))
+def f():
+    response = os.system("ping -c 1 " + hostname)
 
-if response == 0:
-  status =  ts + ":1\n"
-else:
-  status =  ts + ":0\n"
+    #and then check the response...
+    ts = str(int(time.time()))
 
-with open("connectionStatus", "a") as statusfile:
-    statusfile.write(status)
+    if response == 0:
+      status =  ts + ":1\n"
+    else:
+      status =  ts + ":0\n"
+
+    with open("connectionStatus", "a") as statusfile:
+        statusfile.write(status)
+    # call f() again in x seconds
+    threading.Timer(10, f).start()
+
+# start calling f now and every 60 sec thereafter
+f()
