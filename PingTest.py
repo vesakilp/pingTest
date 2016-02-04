@@ -17,5 +17,5 @@ def f():
     # call f() again in x seconds
     threading.Timer(10, f).start()
 
-# start calling f now and every 60 sec thereafter
+# start calling f now and every x sec thereafter
 f()
